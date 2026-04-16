@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>artificialintellectual.ai</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0f;
+      --bg-card:   #141417;
+      --bg-hover:  #1a1a1f;
+      --border:    #222228;
+      --text:      #e2e2e8;
+      --muted:     #7a7a88;
+      --accent:    #7c6fff;
+      --accent2:   #4fc3f7;
+      --tag-bg:    #1e1e26;
+      --font:      'Georgia', 'Times New Roman', serif;
+      --mono:      'Courier New', Courier, monospace;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+
+    /* ── Scrollbar ────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Nav ──────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 58px;
+      background: rgba(13, 13, 15, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-brand:hover { color: var(--text); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hamburger (mobile) ───────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--muted);
+      transition: all 0.2s;
+    }
+
+    /* ── Layout Container ─────────────────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 6rem 0 5rem;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 60% 30%, rgba(124,111,255,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 20% 80%, rgba(79,195,247,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+      opacity: 0.9;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+      margin-bottom: 1.4rem;
+      color: #ebebf3;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 1rem;
+      max-width: 560px;
+    }
+
+    .hero-sub {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+    }
+
+    .hero-sub::before {
+      content: '—  ';
+      color: var(--accent);
+    }
+
+    .hero-divider {
+      margin-top: 4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    .hero-scroll {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    /* ── Section Header ───────────────────────────────────────── */
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      color: #d8d8e2;
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 520px;
+      font-style: italic;
+    }
+
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 3rem;
+    }
+
+    /* ── Cards ────────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .card {
+      background: var(--bg-card);
+      padding: 1.8rem;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .card:hover { background: var(--bg-hover); }
+
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+      font-style: normal;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: normal;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .card-body {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .card-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.2rem 0.6rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    /* ── Markets Section ──────────────────────────────────────── */
+    .market-placeholder {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .market-header {
+      padding: 1rem 1.5rem;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .market-header-title {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .market-status {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    .market-status::before {
+      content: '● ';
+      color: #4caf50;
+      opacity: 0.7;
+    }
+
+    .market-body {
+      padding: 2rem 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .ticker-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .ticker-symbol {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .ticker-price {
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .ticker-change {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    .ticker-placeholder {
+      width: 70%;
+      height: 1.4rem;
+      background: var(--bg-hover);
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ticker-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+      animation: shimmer 2.4s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .market-footer {
+      padding: 0.9rem 1.5rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    /* ── Experiments Section ──────────────────────────────────── */
+    .experiment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .experiment-item {
+      background: var(--bg-card);
+      padding: 1.4rem 1.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      transition: background 0.2s;
+      cursor: default;
+    }
+
+    .experiment-item:hover { background: var(--bg-hover); }
+
+    .experiment-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      opacity: 0.5;
+      padding-top: 0.2rem;
+      min-width: 2rem;
+    }
+
+    .experiment-content { flex: 1; }
+
+    .experiment-title {
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .experiment-desc {
+      font-size: 0.825rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .experiment-meta {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.4;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Sports Section ───────────────────────────────────────── */
+    .sports-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .sports-card {
+      background: var(--bg-card);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+
+    .sports-card:hover { background: var(--bg-hover); }
+
+    .sports-card-title {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      font-style: italic;
+    }
+
+    .sports-stat {
+      font-size: 2.2rem;
+      letter-spacing: -0.04em;
+      color: #d8d8e2;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .sports-stat-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    .sports-note {
+      grid-column: 1 / -1;
+      background: var(--bg-card);
+      padding: 1.2rem 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+      opacity: 0.7;
+    }
+
+    /* ── About Section ────────────────────────────────────────── */
+    #about {
+      padding-bottom: 8rem;
+    }
+
+    .about-body {
+      max-width: 620px;
+    }
+
+    .about-graf {
+      font-size: 1.05rem;
+      color: #c8c8d4;
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-graf em {
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .about-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 2rem;
+    }
+
+    .about-tag {
+      padding: 0.3rem 0.8rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0.5;
+      letter-spacing: 0.04em;
+    }
+
+    .footer-note {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.35;
+      font-style: italic;
+    }
+
+    /* ── Mobile ───────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 58px;
+        left: 0; right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(13,13,15,0.97);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 0;
+      }
+
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        display: block;
+        padding: 0.9rem 1.5rem;
+        font-size: 0.82rem;
+      }
+
+      .hamburger { display: flex; }
+
+      section { padding: 4rem 0 3rem; }
+
+      .hero-title { font-size: 2rem; }
+
+      .sports-grid { grid-template-columns: 1fr; }
+
+      .market-body { grid-template-columns: 1fr 1fr; }
+
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q63HFTMCCQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Q63HFTMCCQ');
+  </script>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <a href="#hero" class="nav-brand"><span>ai</span>·intellectual</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#markets">Markets</a></li>
+      <li><a href="#experiments">Experiments</a></li>
+      <li><a href="#sports">Sports</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <p class="hero-label">artificialintellectual.ai</p>
+      <h1 class="hero-title">
+        Thinking out loud<br>
+        at the edge of<br>
+        <em>human and artificial</em> minds.
+      </h1>
+      <p class="hero-tagline">A Darwinian journal for the age of AI.</p>
+      <p class="hero-sub">Markets. Experiments. Ideas. Documented in real time.</p>
+      <div class="hero-divider">
+        <div class="hero-divider-line"></div>
+        <span class="hero-scroll">scroll ↓</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Markets ── -->
+  <section id="markets">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">§ 01</span>
+        <h2 class="section-title">Markets</h2>
+        <p class="section-desc">Daily brief, thesis tracking, and notes from the semiconductor cycle.</p>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="market-placeholder">
+        <div class="market-header">
+          <span class="market-header-title">Portfolio Allocation</span>
+          <span class="market-status">Live feed coming soon</span>
+        </div>
+        <div class="market-body">
+          <div class="ticker-item">
+            <span class="ticker-symbol">NVDA</span>
+            <span class="ticker-price" style="font-size:1.3rem;">24%</span>
+            <span class="ticker-change">semiconductors · AI infrastructure</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">AMD</span>
+            <span class="ticker-price" style="font-size:1.3rem;">22%</span>
+            <span class="ticker-change">semiconductors · data center</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">MSFT</span>
+            <span class="ticker-price" style="font-size:1.3rem;">21%</span>
+            <span class="ticker-change">software · long hold</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">MU</span>
+            <span class="ticker-price" style="font-size:1.3rem;">18%</span>
+            <span class="ticker-change">memory · watching re-entry</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">QCOM</span>
+            <span class="ticker-price" style="font-size:1.3rem;">15%</span>
+            <span class="ticker-change">semiconductors · mobile/edge</span>
+          </div>
+        </div>
+        <div class="market-footer">Approximate allocation · Price data and thesis notes will populate once feed is connected</div>
+      </div>
+
+      <div class="card-grid" style="margin-top:1px; border-top:none; border-radius: 0 0 6px 6px;">
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <div class="card-title">Thesis Tracking</div>
+          <div class="card-body">Long semiconductor cycle. AI infrastructure buildout still early. Watching memory for the re-entry window.</div>
+          <span class="card-tag">in progress</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">📓</div>
+          <div class="card-title">Trade Journal</div>
+          <div class="card-body">Entries, exits, and the reasoning behind them. Winning and losing documented honestly.</div>
+          <span class="card-tag">coming soon</span>
+        </div>
+        <div class="card">
+          <div class="card-icon">🧠</div>
+          <div class="card-title">Market Narratives</div>
+          <div class="card-body">What the tape is saying vs. what the news says. Pattern recognition over noise reduction.</div>
+          <span class="card-tag">coming soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experiments ── -->
+  <section id="experiments">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">§ 02</span>
+        <h2 class="section-title">Experiments</h2>
+        <p class="section-desc">AI outputs, tools built with Claude, artifacts worth keeping. Interesting failures included.</p>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="experiment-list">
+        <div class="experiment-item">
+          <span class="experiment-num">001</span>
+          <div class="experiment-content">
+            <div class="experiment-title">This website</div>
+            <div class="experiment-desc">Single-page site generated by Claude Code from a plain-English brief. First commit. Everything has to start somewhere.</div>
+            <div class="experiment-meta">April 2026 · HTML/CSS · Claude Sonnet 4.6</div>
+          </div>
+        </div>
+        <div class="experiment-item">
+          <span class="experiment-num">002</span>
+          <div class="experiment-content">
+            <div class="experiment-title">Market Brief Automation</div>
+            <div class="experiment-desc">Daily pre-market summary generated from a watchlist. Designed to replace the morning scroll through six different tabs.</div>
+            <div class="experiment-meta">Planned · Python + Claude API</div>
+          </div>
+        </div>
+        <div class="experiment-item">
+          <span class="experiment-num">003</span>
+          <div class="experiment-content">
+            <div class="experiment-title">AI as Thinking Partner</div>
+            <div class="experiment-desc">An ongoing experiment in using Claude for investment thesis development, stress-testing ideas, and finding the holes in my own logic.</div>
+            <div class="experiment-meta">Ongoing · Notes &amp; artifacts forthcoming</div>
+          </div>
+        </div>
+        <div class="experiment-item" style="opacity:0.45;">
+          <span class="experiment-num">···</span>
+          <div class="experiment-content">
+            <div class="experiment-title">More to come</div>
+            <div class="experiment-desc">Automation scripts, parody artifacts, LLM quirks worth documenting, and whatever else seems worth building or breaking.</div>
+            <div class="experiment-meta">This space fills as things get built</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Sports ── -->
+  <section id="sports">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">§ 03</span>
+        <h2 class="section-title">Sports</h2>
+        <p class="section-desc">Analysis, models, and gambling experiments. Applying the same rigor here as everywhere else.</p>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="sports-grid">
+        <div class="sports-card">
+          <div class="sports-card-title">Season record</div>
+          <div class="sports-stat">0-0</div>
+          <div class="sports-stat-label">W · L (tracked bets)</div>
+        </div>
+        <div class="sports-card">
+          <div class="sports-card-title">Units P/L</div>
+          <div class="sports-stat">+0.0u</div>
+          <div class="sports-stat-label">Net units this season</div>
+        </div>
+        <div class="sports-card">
+          <div class="sports-card-title">ROI</div>
+          <div class="sports-stat">—%</div>
+          <div class="sports-stat-label">Return on units risked</div>
+        </div>
+        <div class="sports-card">
+          <div class="sports-card-title">Active sports</div>
+          <div class="sports-stat" style="font-size:1.4rem; padding-top:0.3rem;">NBA / MLB</div>
+          <div class="sports-stat-label" style="margin-top:0.4rem;">AI-assisted line analysis</div>
+        </div>
+        <div class="sports-note">
+          All tracking in units. This section exists to find systematic edge — not tips, not picks. The honest answer right now is the sample size is too small to know if any of this works.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">§ 04</span>
+        <h2 class="section-title">About</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <div class="about-body">
+        <p class="about-graf">
+          Someone using AI as a genuine thinking partner — across investing, building tools, and working through ideas.
+          The gap between <em>having an idea</em> and <em>shipping something</em> has narrowed considerably,
+          and this site is an attempt to document what that looks like in practice. The goal is financial independence,
+          approached the same way everything else here is: with honesty about where things stand,
+          clarity about the direction, and a bias toward doing over theorizing.
+        </p>
+        <p class="about-graf">
+          <em>Artificialintellectual.ai</em> is a living record of what it looks like to use these tools seriously —
+          the wins, the wrong turns, and the things still being figured out.
+        </p>
+        <div class="about-meta">
+          <span class="about-tag">Semiconductors</span>
+          <span class="about-tag">AI tooling</span>
+          <span class="about-tag">Financial independence</span>
+          <span class="about-tag">Building in public</span>
+          <span class="about-tag">Markets</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; width:100%;">
+      <span class="footer-brand">artificialintellectual.ai</span>
+      <span class="footer-note">Built with Claude Code · Updated as things happen</span>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // Subtle active state on nav links while scrolling
+    const sections = document.querySelectorAll('section[id]');
+    const links    = document.querySelectorAll('.nav-links a');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.style.color = '');
+          const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+          if (active) active.style.color = 'var(--text)';
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>
