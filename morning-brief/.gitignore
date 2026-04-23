@@ -1,0 +1,4 @@
+.env
+output/latest.html
+__pycache__/
+*.pyc
