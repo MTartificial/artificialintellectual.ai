@@ -397,6 +397,47 @@
       opacity: 0.5;
     }
 
+    /* ── Morning Brief Banner ─────────────────────────────────── */
+    .brief-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-card);
+      margin-bottom: 1px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .brief-banner:hover { background: var(--bg-hover); }
+
+    .brief-banner-left { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .brief-banner-title {
+      font-size: 0.95rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .brief-banner-sub {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      opacity: 0.6;
+    }
+
+    .brief-banner-cta {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     /* ── Position Cards ───────────────────────────────────────── */
     .position-grid {
       display: grid;
@@ -750,6 +791,14 @@
         <p class="section-desc">Daily brief, thesis tracking, and notes from the semiconductor cycle.</p>
       </div>
       <div class="section-divider"></div>
+
+      <a href="morning-brief/output/latest.html" class="brief-banner">
+        <div class="brief-banner-left">
+          <span class="brief-banner-title">Morning Brief</span>
+          <span class="brief-banner-sub">Daily market summary, AI curated &nbsp;·&nbsp; April 25, 2026</span>
+        </div>
+        <span class="brief-banner-cta">Read Today's Brief →</span>
+      </a>
 
       <div class="market-placeholder">
         <div class="market-header">
