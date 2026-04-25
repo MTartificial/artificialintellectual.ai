@@ -31,6 +31,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add morning-brief/output/latest.html
+          git add -f morning-brief/output/latest.html
           git diff --staged --quiet || git commit -m "Automated morning brief - $(date +'%Y-%m-%d')"
           git push
