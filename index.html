@@ -397,6 +397,53 @@
       opacity: 0.5;
     }
 
+    /* ── Portfolio Allocation Chart ──────────────────────────── */
+    .alloc-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .alloc-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .alloc-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      min-width: 3.2rem;
+    }
+
+    .alloc-bar-track {
+      flex: 1;
+      height: 5px;
+      background: var(--bg-hover);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .alloc-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+
+    .alloc-row:hover .alloc-bar-fill { opacity: 1; }
+
+    .alloc-pct {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      min-width: 2.5rem;
+      text-align: right;
+    }
+
     /* ── Experiments Section ──────────────────────────────────── */
     .experiment-list {
       display: flex;
@@ -666,36 +713,46 @@
       <div class="market-placeholder">
         <div class="market-header">
           <span class="market-header-title">Portfolio Allocation</span>
-          <span class="market-status">Live feed coming soon</span>
+          <span class="market-status">Fun account · Apr 2026</span>
         </div>
-        <div class="market-body">
-          <div class="ticker-item">
-            <span class="ticker-symbol">NVDA</span>
-            <span class="ticker-price" style="font-size:1.3rem;">24%</span>
-            <span class="ticker-change">semiconductors · AI infrastructure</span>
+        <div class="alloc-body">
+          <div class="alloc-row">
+            <span class="alloc-label">MU</span>
+            <div class="alloc-bar-track">
+              <div class="alloc-bar-fill" style="width:29%; background:#4fc3f7;"></div>
+            </div>
+            <span class="alloc-pct">29%</span>
           </div>
-          <div class="ticker-item">
-            <span class="ticker-symbol">AMD</span>
-            <span class="ticker-price" style="font-size:1.3rem;">22%</span>
-            <span class="ticker-change">semiconductors · data center</span>
+          <div class="alloc-row">
+            <span class="alloc-label">NVDA</span>
+            <div class="alloc-bar-track">
+              <div class="alloc-bar-fill" style="width:27%; background:#4caf50;"></div>
+            </div>
+            <span class="alloc-pct">27%</span>
           </div>
-          <div class="ticker-item">
-            <span class="ticker-symbol">MSFT</span>
-            <span class="ticker-price" style="font-size:1.3rem;">21%</span>
-            <span class="ticker-change">software · long hold</span>
+          <div class="alloc-row">
+            <span class="alloc-label">Cash</span>
+            <div class="alloc-bar-track">
+              <div class="alloc-bar-fill" style="width:25%; background:#7a7a88;"></div>
+            </div>
+            <span class="alloc-pct">25%</span>
           </div>
-          <div class="ticker-item">
-            <span class="ticker-symbol">MU</span>
-            <span class="ticker-price" style="font-size:1.3rem;">18%</span>
-            <span class="ticker-change">memory · watching re-entry</span>
+          <div class="alloc-row">
+            <span class="alloc-label">AMD</span>
+            <div class="alloc-bar-track">
+              <div class="alloc-bar-fill" style="width:14%; background:#ef6c00;"></div>
+            </div>
+            <span class="alloc-pct">14%</span>
           </div>
-          <div class="ticker-item">
-            <span class="ticker-symbol">QCOM</span>
-            <span class="ticker-price" style="font-size:1.3rem;">15%</span>
-            <span class="ticker-change">semiconductors · mobile/edge</span>
+          <div class="alloc-row">
+            <span class="alloc-label">QCOM</span>
+            <div class="alloc-bar-track">
+              <div class="alloc-bar-fill" style="width:5%; background:#9c6fff;"></div>
+            </div>
+            <span class="alloc-pct">5%</span>
           </div>
         </div>
-        <div class="market-footer">Approximate allocation · Price data and thesis notes will populate once feed is connected</div>
+        <div class="market-footer">Fun account only · Hardcoded snapshot · Automation coming</div>
       </div>
 
       <div class="card-grid" style="margin-top:1px; border-top:none; border-radius: 0 0 6px 6px;">
