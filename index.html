@@ -397,52 +397,87 @@
       opacity: 0.5;
     }
 
-    /* ── Portfolio Allocation Chart ──────────────────────────── */
-    .alloc-body {
-      padding: 1.5rem;
+    /* ── Position Cards ───────────────────────────────────────── */
+    .position-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .position-card {
+      background: var(--bg-card);
+      padding: 1.4rem 1.5rem 1.6rem;
+      position: relative;
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
-    }
-
-    .alloc-row {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .alloc-label {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      min-width: 3.2rem;
-    }
-
-    .alloc-bar-track {
-      flex: 1;
-      height: 5px;
-      background: var(--bg-hover);
-      border-radius: 3px;
+      transition: background 0.2s;
       overflow: hidden;
     }
 
-    .alloc-bar-fill {
-      height: 100%;
+    .position-card:hover { background: var(--bg-hover); }
+
+    .pos-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .pos-symbol {
+      font-family: var(--mono);
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+    }
+
+    .pos-alloc {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      opacity: 0.55;
+      padding: 0.15rem 0.4rem;
+      border: 1px solid var(--border);
       border-radius: 3px;
-      opacity: 0.75;
+      background: var(--tag-bg);
+    }
+
+    .pos-price {
+      font-family: var(--mono);
+      font-size: 1.65rem;
+      letter-spacing: -0.03em;
+      color: #ebebf3;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .pos-change {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .pos-change.up { color: #4caf50; }
+    .pos-change.dn { color: #ef5350; }
+
+    .pos-dry {
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.4rem;
+    }
+
+    .pos-weight-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      opacity: 0.3;
       transition: opacity 0.2s;
     }
 
-    .alloc-row:hover .alloc-bar-fill { opacity: 1; }
-
-    .alloc-pct {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-      min-width: 2.5rem;
-      text-align: right;
-    }
+    .position-card:hover .pos-weight-bar { opacity: 0.65; }
 
     /* ── Experiments Section ──────────────────────────────────── */
     .experiment-list {
@@ -618,6 +653,11 @@
       font-style: italic;
     }
 
+    /* ── Tablet ───────────────────────────────────────────────── */
+    @media (max-width: 760px) {
+      .position-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
     /* ── Mobile ───────────────────────────────────────────────── */
     @media (max-width: 640px) {
       nav { padding: 0 1.25rem; }
@@ -651,6 +691,7 @@
       .sports-grid { grid-template-columns: 1fr; }
 
       .market-body { grid-template-columns: 1fr 1fr; }
+      .position-grid { grid-template-columns: 1fr; }
 
       footer { flex-direction: column; align-items: flex-start; }
     }
@@ -712,45 +753,60 @@
 
       <div class="market-placeholder">
         <div class="market-header">
-          <span class="market-header-title">Portfolio Allocation</span>
-          <span class="market-status">Fun account · Apr 2026</span>
+          <span class="market-header-title">Watchlist</span>
+          <span class="market-status">Fun account · Apr 25 2026</span>
         </div>
-        <div class="alloc-body">
-          <div class="alloc-row">
-            <span class="alloc-label">MU</span>
-            <div class="alloc-bar-track">
-              <div class="alloc-bar-fill" style="width:29%; background:#4fc3f7;"></div>
+        <div class="position-grid">
+
+          <div class="position-card">
+            <div class="pos-header">
+              <span class="pos-symbol">MU</span>
+              <span class="pos-alloc">29%</span>
             </div>
-            <span class="alloc-pct">29%</span>
+            <div class="pos-price">$498.00</div>
+            <div class="pos-change dn">−3.20  −0.64%</div>
+            <div class="pos-weight-bar" style="width:29%; background:#4fc3f7;"></div>
           </div>
-          <div class="alloc-row">
-            <span class="alloc-label">NVDA</span>
-            <div class="alloc-bar-track">
-              <div class="alloc-bar-fill" style="width:27%; background:#4caf50;"></div>
+
+          <div class="position-card">
+            <div class="pos-header">
+              <span class="pos-symbol">NVDA</span>
+              <span class="pos-alloc">27%</span>
             </div>
-            <span class="alloc-pct">27%</span>
+            <div class="pos-price">$210.00</div>
+            <div class="pos-change up">+2.45  +1.18%</div>
+            <div class="pos-weight-bar" style="width:27%; background:#4caf50;"></div>
           </div>
-          <div class="alloc-row">
-            <span class="alloc-label">Cash</span>
-            <div class="alloc-bar-track">
-              <div class="alloc-bar-fill" style="width:25%; background:#7a7a88;"></div>
+
+          <div class="position-card">
+            <div class="pos-header">
+              <span class="pos-symbol">CASH</span>
+              <span class="pos-alloc">25%</span>
             </div>
-            <span class="alloc-pct">25%</span>
+            <div class="pos-dry">Dry Powder</div>
+            <div class="pos-weight-bar" style="width:25%; background:#7a7a88;"></div>
           </div>
-          <div class="alloc-row">
-            <span class="alloc-label">AMD</span>
-            <div class="alloc-bar-track">
-              <div class="alloc-bar-fill" style="width:14%; background:#ef6c00;"></div>
+
+          <div class="position-card">
+            <div class="pos-header">
+              <span class="pos-symbol">AMD</span>
+              <span class="pos-alloc">14%</span>
             </div>
-            <span class="alloc-pct">14%</span>
+            <div class="pos-price">$348.00</div>
+            <div class="pos-change up">+5.80  +1.69%</div>
+            <div class="pos-weight-bar" style="width:14%; background:#ef6c00;"></div>
           </div>
-          <div class="alloc-row">
-            <span class="alloc-label">QCOM</span>
-            <div class="alloc-bar-track">
-              <div class="alloc-bar-fill" style="width:5%; background:#9c6fff;"></div>
+
+          <div class="position-card">
+            <div class="pos-header">
+              <span class="pos-symbol">QCOM</span>
+              <span class="pos-alloc">5%</span>
             </div>
-            <span class="alloc-pct">5%</span>
+            <div class="pos-price">$136.00</div>
+            <div class="pos-change up">+0.95  +0.70%</div>
+            <div class="pos-weight-bar" style="width:5%; background:#9c6fff;"></div>
           </div>
+
         </div>
         <div class="market-footer">Fun account only · Hardcoded snapshot · Automation coming</div>
       </div>
