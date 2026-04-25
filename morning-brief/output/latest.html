@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morning Brief — Saturday, April 25, 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0f;
+      --bg-card:   #141417;
+      --bg-hover:  #1a1a1f;
+      --border:    #222228;
+      --text:      #e2e2e8;
+      --muted:     #7a7a88;
+      --accent:    #7c6fff;
+      --accent2:   #4fc3f7;
+      --tag-bg:    #1e1e26;
+      --font:      'Georgia', 'Times New Roman', serif;
+      --mono:      'Courier New', Courier, monospace;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 58px;
+      background: rgba(13, 13, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent); }
+
+    .nav-meta {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-header {
+      padding: 7rem 0 3rem;
+    }
+
+    .page-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .page-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: #ebebf3;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-date {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      opacity: 0.6;
+    }
+
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* Market ticker strip */
+    .market-strip {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .market-strip-header {
+      padding: 0.75rem 1.5rem;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .market-strip-title {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .market-strip-time {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.45;
+    }
+
+    .market-strip-body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1.25rem;
+      background: var(--bg-card);
+    }
+
+    .ticker-item { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .ticker-symbol {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .ticker-price {
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .ticker-change {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+    }
+
+    /* Brief body */
+    .brief-body {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .brief-body-inner {
+      padding: 2rem 2.5rem;
+      background: var(--bg-card);
+    }
+
+    .brief-section-heading {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 1.75rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brief-section-heading:first-child { margin-top: 0; }
+
+    .brief-body-inner p {
+      font-size: 0.975rem;
+      color: #c8c8d4;
+      line-height: 1.85;
+      margin-bottom: 0.6rem;
+    }
+
+    .brief-footer {
+      padding: 0.85rem 1.5rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.4;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0.5;
+      letter-spacing: 0.04em;
+    }
+
+    .footer-note {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      opacity: 0.35;
+      font-style: italic;
+    }
+
+    @media (max-width: 640px) {
+      .market-strip-body { grid-template-columns: 1fr 1fr; }
+      .brief-body-inner { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-brand"><span>ai</span>·intellectual</a>
+    <span class="nav-meta">morning brief</span>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <span class="page-label">Experiment #002 — Morning Brief</span>
+      <h1 class="page-title">Saturday, April 25, 2026</h1>
+      <span class="page-date">Generated at 11:33 PM · Claude Sonnet 4.6 · yfinance + NewsAPI</span>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="market-strip">
+      <div class="market-strip-header">
+        <span class="market-strip-title">Watchlist</span>
+        <span class="market-strip-time">Pulled at 11:33 PM</span>
+      </div>
+      <div class="market-strip-body">
+        
+        <div class="ticker-item">
+          <span class="ticker-symbol">MU</span>
+          <span class="ticker-price">$496.72</span>
+          <span class="ticker-change" style="color:#4caf50; opacity:1;">+11.72 (+2.42%)</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">AMD</span>
+          <span class="ticker-price">$347.81</span>
+          <span class="ticker-change" style="color:#4caf50; opacity:1;">+19.05 (+5.79%)</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">NVDA</span>
+          <span class="ticker-price">$208.27</span>
+          <span class="ticker-change" style="color:#4caf50; opacity:1;">+8.77 (+4.40%)</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">QCOM</span>
+          <span class="ticker-price">$148.85</span>
+          <span class="ticker-change" style="color:#4caf50; opacity:1;">+12.86 (+9.46%)</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">MSFT</span>
+          <span class="ticker-price">$424.62</span>
+          <span class="ticker-change" style="color:#4caf50; opacity:1;">+5.97 (+1.43%)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="brief-body">
+      <div class="brief-body-inner">
+        <p>## MARKETS</p>
+<p>Semiconductors are ripping across the board today, led by QCOM's nearly 10% surge — likely earnings-driven or guidance-related given the magnitude. AMD is having a strong session too, up ~6%, with the Ryzen 9950X3D2 dominating Amazon sales charts reinforcing the narrative that AMD is taking real CPU market share from Intel. NVDA up 4.4% on continued AI chip demand enthusiasm, and even MU is participating with a solid 2.4% gain. MSFT's modest 1.4% rise is the quiet confirmation that the AI spending cycle is still intact — big cloud capex flows downstream to the chip names.</p>
+<br>
+<p>---</p>
+<br>
+<p>## NEWS</p>
+<p>**Intel surges 23% after earnings** — this is the headline of the day; if Intel is beating and guiding up, it suggests the broader semiconductor cycle may be turning, which is a rising tide for the whole sector, though Intel's AI chip execution still lags NVDA and AMD meaningfully.</p>
+<br>
+<p>**AMD's Ryzen 9950X3D2 outselling every Intel CPU on Amazon** — consumer-level validation of AMD's x3D momentum, and retail sales data is often a leading indicator of share gains that show up in earnings a quarter or two later.</p>
+<br>
+<p>**Maine Governor vetoes data center construction ban** — quietly important; state-level regulatory risk for data center buildout is real, and this veto keeps one more potential bottleneck off the table for the infrastructure buildout that ultimately drives chip demand.</p>
+<br>
+<p>**Justice Department drops criminal probe of Fed Chair Powell** — removes a tail risk around Fed independence; markets hate uncertainty about monetary policy leadership, and clearing Powell's name keeps the macro backdrop a little cleaner heading into the next rate decision.</p>
+
+      </div>
+      <div class="brief-footer">AI-generated summary · Not financial advice · Data via yfinance and NewsAPI</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container footer-inner">
+      <span class="footer-brand">artificialintellectual.ai</span>
+      <span class="footer-note">Built with Claude Code · Updated daily</span>
+    </div>
+  </footer>
+
+</body>
+</html>
